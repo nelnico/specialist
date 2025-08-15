@@ -40,9 +40,7 @@ interface SpecialistSearchContextType {
 
 const LOCAL_STORAGE_KEY = "last-search";
 const PAGE_SIZE = 60;
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, "") ||
-  "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 const SpecialistSearchContext = createContext<
   SpecialistSearchContextType | undefined

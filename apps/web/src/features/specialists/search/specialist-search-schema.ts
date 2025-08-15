@@ -1,0 +1,27 @@
+import { z } from "zod";
+
+export const SelectOption = z.object({
+  label: z.string(),
+  value: z.string(),
+});
+
+export const SpecialistSearchSchema = z.object({
+  page: z.number().optional().default(0),
+  pageSize: z.number().optional().default(60),
+  query: z.string().trim().optional().default(""),
+  genderIds: z.array(SelectOption).optional(),
+  provinceId: z.number().optional(),
+  sortOption: z.string().optional(),
+});
+
+export type SpecialistSearchForm = z.infer<typeof SpecialistSearchSchema>;
+
+export const DefaultSpecialistSearchParams: SpecialistSearchForm =
+  SpecialistSearchSchema.parse({
+    page: 0,
+    pageSize: 60,
+    query: "",
+    genderIds: [],
+    provinceId: undefined,
+    sortOption: "newest",
+  });

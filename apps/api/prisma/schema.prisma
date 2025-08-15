@@ -13,6 +13,13 @@ enum UserRole {
   SPECIALIST
 }
 
+enum ClientMembershipType {
+  FREE
+  BASIC
+  PREMIUM
+  ALL_ACCESS
+}
+
 model User {
   id             Int         @id @default(autoincrement())
   createdAt      DateTime    @default(now())
@@ -26,13 +33,26 @@ model User {
 }
 
 model Client {
-  id        Int              @id @default(autoincrement())
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  userId    Int              @unique
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  favorites ClientFavorite[]
-  review    Review[]
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  userId           Int               @unique
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favorites        ClientFavorite[]
+  review           Review[]
+  ClientMembership ClientMembership?
+}
+
+model ClientMembership {
+  id                  Int                  @id @default(autoincrement())
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime?
+  membershipType      ClientMembershipType
+  membershipStartDate DateTime
+  membershipEndDate   DateTime?
+
+  clientId Int    @unique
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }
 
 model ClientFavorite {
@@ -66,18 +86,45 @@ model ReviewRating {
 }
 
 model Specialist {
-  id        Int              @id @default(autoincrement())
-  createdAt DateTime         @default(now())
-  updatedAt DateTime?        @updatedAt
-  name      String
-  genderId  Int?
-  bio       String
-  userId    Int              @unique
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  contact   Contact?         @relation(fields: [contactId], references: [id], onDelete: Cascade)
-  contactId Int?             @unique @map("contactInfoId")
-  favorites ClientFavorite[]
-  reviews   Review[]
+  id                Int                @id @default(autoincrement())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  name              String
+  specialtyIds      Int[]              @default([])
+  genderId          Int?
+  bio               String
+  userId            Int                @unique
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contact           Contact?           @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId         Int?               @unique @map("contactInfoId")
+  favorites         ClientFavorite[]
+  reviews           Review[]
+  specialistSummary SpecialistSummary?
+}
+
+model SpecialistSummary {
+  id               Int                       @id @default(autoincrement())
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+  specialistId     Int                       @unique
+  specialist       Specialist                @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+  favoritedByCount Int                       @default(0)
+  viewedCount      Int                       @default(0)
+  reviewCount      Int                       @default(0)
+  averageRating    Float                     @default(0)
+  ratingSummaries  SpecialistRatingSummary[]
+}
+
+model SpecialistRatingSummary {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  specialistSummaryId Int
+  specialistSummary   SpecialistSummary @relation(fields: [specialistSummaryId], references: [id], onDelete: Cascade)
+  ratingOptionId      Int
+  averageValue        Float             @default(0)
+
+  @@unique([specialistSummaryId, ratingOptionId])
 }
 
 model Contact {
@@ -88,7 +135,6 @@ model Contact {
   location1  String?
   location2  String?
   location3  String?
-  location4  String?
   phones     ContactPhone[]
   emails     ContactEmail[]
   websites   ContactWebsite[]

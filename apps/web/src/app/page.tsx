@@ -1,6 +1,6 @@
-// app/page.tsx (or app/(whatever)/page.tsx)
 "use client";
 
+import { Button } from "@/components/ui/button";
 import LoadMore from "@/features/specialists/search/load-more";
 import {
   SpecialistSearchProvider,
@@ -27,7 +27,7 @@ function SpecialistList() {
 export default function Home() {
   return (
     <SpecialistSearchProvider>
-      {/* your search form that calls setSearchParams(...) */}
+      <Button>ShadCN Button Test</Button>
       <SpecialistList />
     </SpecialistSearchProvider>
   );

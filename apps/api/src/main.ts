@@ -6,9 +6,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://specialist-web.vercel.app'],
+    origin: ['http://localhost:3020', 'https://specialist-web.vercel.app'],
     credentials: true,
   });
   await app.listen(process.env.PORT ?? 8000);
 }
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();

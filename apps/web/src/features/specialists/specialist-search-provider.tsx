@@ -16,6 +16,7 @@ import {
 import { omitEmptySearchValues } from "@/lib/helpers/empty-helpers";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryKeys } from "./specialist-query-keys";
+import { DEFAULT_PAGE_SIZE } from "@/lib/config";
 
 interface SpecialistSearchProviderProps {
   children: React.ReactNode;
@@ -39,7 +40,7 @@ interface SpecialistSearchContextType {
 }
 
 const LOCAL_STORAGE_KEY = "last-search";
-const PAGE_SIZE = 60;
+const PAGE_SIZE = DEFAULT_PAGE_SIZE;
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 const SpecialistSearchContext = createContext<

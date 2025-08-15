@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistSearch } from "./specialist-search-provider";
 import SpecialistCard from "./specialist-card";
+import { DEFAULT_PAGE_SIZE } from "@/lib/config";
 
 export default function SpecialistList() {
   const {
@@ -39,7 +40,7 @@ export default function SpecialistList() {
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   if (isLoading && specialists.length === 0) {
-    return <GridSkeleton count={10} />;
+    return <GridSkeleton count={DEFAULT_PAGE_SIZE} />;
   }
 
   if (error) {
@@ -83,7 +84,9 @@ export default function SpecialistList() {
       {/* Accessible fallback button in case IntersectionObserver fails */}
       {hasNextPage && !isFetchingNextPage && (
         <div className="flex justify-center py-6">
-          <Button onClick={() => fetchNextPage?.()}>Load more</Button>
+          <Button onClick={() => fetchNextPage?.()}>
+            Load more {hasNextPage ? "Yes" : "No"}
+          </Button>
         </div>
       )}
     </div>
@@ -96,6 +99,9 @@ function GridSkeleton({ count = 12 }: { count?: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <Card key={i}>
           <CardContent className="space-y-2 p-4">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
+            <Skeleton className="h-3 w-1/2" />
             <Skeleton className="h-4 w-3/4" />
             <Skeleton className="h-3 w-1/2" />
           </CardContent>

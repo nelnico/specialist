@@ -1,3 +1,4 @@
+import { DEFAULT_PAGE_SIZE } from "@/lib/config";
 import { z } from "zod";
 
 export const SelectOption = z.object({
@@ -19,7 +20,7 @@ export type SpecialistSearchForm = z.infer<typeof SpecialistSearchSchema>;
 export const DefaultSpecialistSearchParams: SpecialistSearchForm =
   SpecialistSearchSchema.parse({
     page: 0,
-    pageSize: 60,
+    pageSize: DEFAULT_PAGE_SIZE,
     query: "",
     genderIds: [],
     provinceId: undefined,

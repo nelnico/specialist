@@ -85,7 +85,7 @@ export default function SpecialistCard({
           </span>
         </div>
 
-        <div>
+        <div className="h-[2.5rem]">
           <p className="text-sm text-gray-700 line-clamp-2">
             {specialist.specialties
               .map((id) => getLabelByValueFromList(specialtyOptions, id))

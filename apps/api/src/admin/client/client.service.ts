@@ -36,7 +36,6 @@ export class ClientService {
       numberOfReviews: c._count.review,
     }));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return buildPaginatedResult<ClientListItem>(data, total, skip, take);
   }
 }

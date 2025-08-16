@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE_SIZE } from "@/lib/config";
+import { DEFAULT_PAGE_SIZE } from "@/lib/config/config";
 import { z } from "zod";
 
 export const SelectOption = z.object({

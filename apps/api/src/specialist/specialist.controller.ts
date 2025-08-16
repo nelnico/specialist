@@ -6,7 +6,6 @@ import { SearchSpecialistsDto } from './dto/search-specialists.dto';
 export class SpecialistController {
   constructor(private readonly specialistService: SpecialistService) {}
 
-  // GET /specialists?orderBy=newest&skip=0&take=50&query=...&provinceId=...
   @Get()
   async search(
     @Query(new ValidationPipe({ transform: true, whitelist: true }))

@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistSearch } from "./specialist-search-provider";
 import SpecialistCard from "./specialist-card";
-import { DEFAULT_PAGE_SIZE } from "@/lib/config";
+import { DEFAULT_PAGE_SIZE } from "@/lib/config/config";
 
 export default function SpecialistList() {
   const {

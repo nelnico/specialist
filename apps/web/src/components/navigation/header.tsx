@@ -14,12 +14,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "./mode-toggle";
+import { APP_NAME } from "@/lib/config/site-config";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
   { name: "Contact", href: "/contact" },
+  { name: "Admin", href: "/admin" },
 ];
 
 export function Header() {
@@ -33,12 +35,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">
-                  L
-                </span>
-              </div>
-              <span className="font-bold text-xl">Logo</span>
+              <span className="font-bold text-xl">{APP_NAME}</span>
             </Link>
           </div>
 

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ListClientsQueryDto } from './dto/list-clients.query.dto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ClientListItem, PaginatedResult } from '@repo/types';
-import { buildPaginatedResult } from 'src/shared/pagination';
+import { buildPaginatedResult } from '../../shared/pagination';
 
 @Injectable()
 export class ClientService {

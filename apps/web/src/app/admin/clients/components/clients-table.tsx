@@ -1,16 +1,14 @@
+// ClientsTable.tsx
 "use client";
 
 import * as React from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
   type PaginationState,
 } from "@tanstack/react-table";
-
 import { clientColumns } from "./columns";
-
 import {
   Table,
   TableBody,
@@ -28,54 +26,16 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ClientListItem, PaginatedResult } from "@repo/types";
-import { API_BASE } from "@/lib/config/config";
-
-// The API sends membershipEndDate as ISO string; map to Date for your shared type.
-type ClientListItemDTO = Omit<ClientListItem, "membershipEndDate"> & {
-  membershipEndDate: string | null;
-};
-type ClientsResponseDTO = PaginatedResult<ClientListItemDTO>;
-
-async function fetchClients(
-  skip: number,
-  take: number
-): Promise<PaginatedResult<ClientListItem>> {
-  const url = `${API_BASE}/admin/client?skip=${skip}&take=${take}`;
-  const res = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(text || `Request failed with ${res.status}`);
-  }
-  const json: ClientsResponseDTO = await res.json();
-
-  // Map ISO to Date to satisfy your shared types
-  const data: ClientListItem[] = json.data.map((c) => ({
-    ...c,
-    membershipEndDate: c.membershipEndDate
-      ? new Date(c.membershipEndDate)
-      : null,
-  }));
-
-  return { data, pagination: json.pagination };
-}
+import { useClientsData } from "../hooks/use-client-data";
 
 export default function ClientsTable() {
-  // Pagination state for TanStack Table
   const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: 0, // 0-based
+    pageIndex: 0,
     pageSize: 25,
   });
-
-  const skip = pagination.pageIndex * pagination.pageSize;
-  const take = pagination.pageSize;
-
-  const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ["admin-clients", skip, take],
-    queryFn: () => fetchClients(skip, take),
+  const { data, isLoading, isFetching, error, skip, take } = useClientsData({
+    pageIndex: pagination.pageIndex,
+    pageSize: pagination.pageSize,
   });
 
   const total = data?.pagination.total ?? 0;
@@ -92,13 +52,12 @@ export default function ClientsTable() {
   });
 
   return (
-    <div className="w-full space-y-3 ">
+    <div className="w-full space-y-3">
       {/* Controls */}
       <div className="flex items-center justify-between gap-2">
         <div className="text-sm text-muted-foreground">
           {isFetching ? "Refreshing…" : `Total: ${total.toLocaleString()}`}
         </div>
-
         <div className="flex items-center gap-2">
           <Select
             value={String(pagination.pageSize)}
@@ -184,14 +143,12 @@ export default function ClientsTable() {
               </TableRow>
             ))}
           </TableHeader>
-
           <TableBody>
             {isLoading ? (
-              // quick loading skeleton
               <>
                 {[...Array(5)].map((_, i) => (
                   <TableRow key={i}>
-                    {[...Array(clientColumns.length)].map((__, j) => (
+                    {[...Array(table.getAllColumns().length)].map((__, j) => (
                       <TableCell key={j}>
                         <Skeleton className="h-4 w-full" />
                       </TableCell>
@@ -202,7 +159,7 @@ export default function ClientsTable() {
             ) : error ? (
               <TableRow>
                 <TableCell
-                  colSpan={clientColumns.length}
+                  colSpan={table.getAllColumns().length}
                   className="text-red-600"
                 >
                   {(error as Error).message || "Failed to load clients."}
@@ -224,7 +181,7 @@ export default function ClientsTable() {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={clientColumns.length}
+                  colSpan={table.getAllColumns().length}
                   className="text-center"
                 >
                   No results.

@@ -59,7 +59,7 @@ model ClientFavorite {
   createdAt    DateTime   @default(now())
   clientId     Int
   specialistId Int
-  Client       Client     @relation(fields: [clientId], references: [id])
+  Client       Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
   Specialist   Specialist @relation(fields: [specialistId], references: [id])
 
   @@id([clientId, specialistId])
@@ -70,8 +70,8 @@ model Review {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   review       String
-  clientId     Int
-  client       Client         @relation(fields: [clientId], references: [id])
+  clientId     Int?
+  client       Client?        @relation(fields: [clientId], references: [id], onDelete: SetNull) // we want to keep reviews if client is deleted
   specialistId Int
   specialist   Specialist     @relation(fields: [specialistId], references: [id])
   reviewRating ReviewRating[]

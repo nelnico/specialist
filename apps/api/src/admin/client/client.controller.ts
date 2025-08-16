@@ -1,4 +1,13 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
 import { ClientService } from './client.service';
 import { ListClientsQueryDto } from './dto/list-clients.query.dto';
 import { ClientListItem, PaginatedResult } from '@repo/types';
@@ -12,5 +21,10 @@ export class ClientController {
     @Query() query: ListClientsQueryDto,
   ): Promise<PaginatedResult<ClientListItem>> {
     return this.service.listClients(query);
+  }
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.service.deleteClient(id);
   }
 }

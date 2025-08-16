@@ -97,13 +97,19 @@ function GridSkeleton({ count = 12 }: { count?: number }) {
   return (
     <div className="mt-2 grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5 xl:gap-5">
       {Array.from({ length: count }).map((_, i) => (
-        <Card key={i}>
-          <CardContent className="space-y-2 p-4">
+        <Card
+          key={i}
+          className="w-full max-w-sm mx-auto overflow-hidden py-0 h-90"
+        >
+          <CardContent className="space-y-5 p-4">
+            <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
-            <Skeleton className="h-3 w-1/2" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-1/2" />
             <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-4 w-full" />
           </CardContent>
         </Card>
       ))}

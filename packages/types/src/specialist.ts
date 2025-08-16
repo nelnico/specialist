@@ -7,6 +7,9 @@ export interface SpecialistListItem {
   location2: string | null;
   location3: string | null;
   averageRating: number;
+  reviewCount: number;
+  favoritedCount: number;
+  specialties: number[];
 }
 
 export type SpecialistSearchResponse = {

@@ -61,15 +61,15 @@ export const provinceOptions: DataOption[] = [
   { value: 9, label: "Northern Cape", priority: 9 },
 ];
 
-export const serviceOptions: DataOption[] = [
-  { value: 1, label: "xx", priority: 1 },
-  { value: 2, label: "xx", priority: 2 },
-  { value: 3, label: "xx", priority: 3 },
-  { value: 4, label: "xx", priority: 4 },
-  { value: 5, label: "xx", priority: 5 },
-  { value: 6, label: "xx", priority: 6 },
-  { value: 7, label: "xx", priority: 7 },
-  { value: 8, label: "xx", priority: 8 },
-  { value: 9, label: "xx", priority: 9 },
-  { value: 10, label: "xx", priority: 10 },
+export const specialtyOptions: DataOption[] = [
+  { value: 1, label: "Electrical", priority: 1 },
+  { value: 2, label: "Plumbing", priority: 2 },
+  { value: 3, label: "Carpentry", priority: 3 },
+  { value: 4, label: "Painting", priority: 4 },
+  { value: 5, label: "Gardening", priority: 5 },
+  { value: 6, label: "Cleaning", priority: 6 },
+  { value: 7, label: "Construction", priority: 7 },
+  { value: 8, label: "HVAC", priority: 8 },
+  { value: 9, label: "Pest Control", priority: 9 },
+  { value: 10, label: "Moving", priority: 10 },
 ];

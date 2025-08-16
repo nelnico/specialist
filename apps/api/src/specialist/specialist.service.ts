@@ -82,6 +82,7 @@ export class SpecialistService {
         select: {
           id: true,
           name: true,
+          specialtyIds: true,
           contact: {
             select: {
               provinceId: true,
@@ -96,7 +97,11 @@ export class SpecialistService {
             },
           },
           specialistSummary: {
-            select: { averageRating: true },
+            select: {
+              averageRating: true,
+              favoritedByCount: true,
+              reviewCount: true,
+            },
           },
         },
       }),
@@ -113,6 +118,9 @@ export class SpecialistService {
       location2: s.contact?.location2 ?? null,
       location3: s.contact?.location3 ?? null,
       averageRating: s.specialistSummary?.averageRating ?? 0,
+      reviewCount: s.specialistSummary?.reviewCount ?? 0,
+      favoritedCount: s.specialistSummary?.favoritedByCount ?? 0,
+      specialties: s.specialtyIds,
     }));
 
     return {
